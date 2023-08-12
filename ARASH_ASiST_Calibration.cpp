@@ -2,7 +2,7 @@
 #include <sstream>
 #include <string>
 #include <vector>
-#include </home/mohammad/ARASH_ASiST_Calibration/ARASH_ASiST_Calibration.h>
+#include </home/mohammad/ARASH_ASiST_Calibration_FactorGraph/ARASH_ASiST_Calibration.h>
 #include <gtsam/nonlinear/ISAM2.h>
 #include <gtsam/nonlinear/ISAM2Params.h>
 #include <gtsam/nonlinear/LevenbergMarquardtOptimizer.h>
@@ -15,7 +15,8 @@ int main(int argc, char *argv[])
 {
 
     // Open the CSV file of data and record them in data vector
-    std::ifstream file("/home/mohammad/ARASH_ASiST_Calibration/dataset_Calib.csv");
+    // std::ifstream file("/home/mohammad/ARASH_ASiST_Calibration_FactorGraph/data_set/dataset3_for_calibration_fix_d(FK_GT).csv");
+    std::ifstream file("/home/mohammad/ARASH_ASiST_Calibration_FactorGraph/data_set/dataset4_for_calibration_fix_d(RCM_GT).csv");
     std::vector<std::vector<double>> data;
     if (file) {
         std::string line;
@@ -47,7 +48,7 @@ int main(int argc, char *argv[])
    
     // Noise model for our measurement. here we have two type of noise model. 
     // This is the first NoiseModel for sensor measurement
-    noiseModel::Gaussian::shared_ptr arash_asist_noise_model = noiseModel::Isotropic::Sigma(3, 0.01);
+    noiseModel::Gaussian::shared_ptr arash_asist_noise_model = noiseModel::Isotropic::Sigma(3, 0.001);
     // This is the second NoiseModel for InequaliyFactor
     noiseModel::Gaussian::shared_ptr inequality_noise_model = noiseModel::Isotropic::Sigma(1, 0.0001);
 
@@ -68,7 +69,7 @@ int main(int argc, char *argv[])
     // graph.add(std::make_shared<Inequality>(Symbol('x', 2), inequality_noise_model));
 
     // add initial values for optimization variables
-    initial_estimate.insert(Symbol('x', 0), -125.0 * M_PI/180.0); // alpha
+    initial_estimate.insert(Symbol('x', 0), 50 * M_PI/180.0); // alpha
     initial_estimate.insert(Symbol('x', 1), 40.0 * M_PI/180.0); // theta
     initial_estimate.insert(Symbol('x', 2), 350.0); // L
 
